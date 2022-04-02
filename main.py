@@ -93,7 +93,7 @@ while True:
     io.output(out_led_red, 0)
     io.output(out_led_green, 0)
     io.output(out_sln_dispense, 1)
-    io.output(out_sln_tdscheck, 0)
+    io.output(out_sln_tdscheck, 1)
     
     val_btn_check_tds = io.input(in_btn_check_tds)
 
@@ -162,7 +162,9 @@ while True:
         i2c_lcd.write_string("1L was subtracted.")
         users[str(user_id)][1] -= 1
         time.sleep(2)
-        continue        
+        continue
+
+        
 
     elif val_btn_cancel == 1:
         continue
@@ -182,7 +184,7 @@ while True:
             if val_btn_cancel == 1:
                 break
             val_btn_check_tds = io.input(in_btn_check_tds)
-            io.output(out_sln_tdscheck, True)
+            io.output(out_sln_tdscheck, False)
             i2c_lcd.clear()
             i2c_lcd.cursor_pos=(0,4)
             tdsdata = arduino.readline().decode('utf-8').rstrip()
@@ -193,7 +195,7 @@ while True:
             i2c_lcd.write_string('ppm')
             print(tdsdata)
             time.sleep(0.5)
-        io.output(out_sln_tdscheck, False)
+        io.output(out_sln_tdscheck, True)
         continue
         if int(tdsdata) > 300:
             io.output(out_led_red, True)
